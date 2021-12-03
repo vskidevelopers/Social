@@ -20,6 +20,10 @@ class Study_level(models.TextChoices):
     MASTERS= 'masters'
     PHD= 'doctrate'
 
+class Frienship_status(models.TextChoices):
+    FRIENDSHIP_SENT = "send"
+    FRIENDSHIP_ACCEPTED ="accepted"
+
 
 class Profiles(models.Model):
     """Model definition for Profiles."""
@@ -47,7 +51,7 @@ class Profiles(models.Model):
 
     def __str__(self):
         """Unicode representation of Profiles."""
-        return f"{self.user.username}-{self.created}"
+        return f"{self.user.username} - {self.created.strftime('%d-%m-%Y')}"
 
     def save(self, *args, **kwargs):
         """Save method for Profiles."""
@@ -63,4 +67,19 @@ class Profiles(models.Model):
         
         self.slug = slug
         super().save( *args, **kwargs)
+
+class Friendship(models.Model):
+    """Model definition for Friendship."""
+
+    # TODO: Define fields here
+    sender = models.ForeignKey(Profiles, related_name="sender", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Profiles, related_name="reciever", on_delete=models.CASCADE)
+    friendship_status = models.CharField(max_length=50, choices=Frienship_status.choices)
+    class Meta:
+        """Meta definition for Friendship."""
+        verbose_name = 'Friendship'
+        verbose_name_plural = 'Friendships'
+
+    def __str__(self):
+        return f"{self.sender}  &  {self.receiver} - {self.friendship_status}"
 
