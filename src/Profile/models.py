@@ -53,6 +53,13 @@ class Profiles(models.Model):
         """Unicode representation of Profiles."""
         return f"{self.user.username} - {self.created.strftime('%d-%m-%Y')}"
 
+    def get_friends(self):
+        return self.friends.all()
+
+    def get_friends_count(self):
+        return self.friends.all().count()
+
+        
     def save(self, *args, **kwargs):
         """Save method for Profiles."""
         ex =False

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href={% static 'css/appearance.css' %}>
+    {% endblock head %}
+
+
+{% block extracont %}
+<div class="theme-red">
+    <div class="vg-page page-home" id="home" style="background-image: url({% static 'images/bg_image_1.jpg' %})">
+  
+      <!-- Caption header -->
+      <div class="caption-header text-center wow zoomInDown">
+        <h5 class="fw-normal">Hello There</h5>
+        <h1 class="fw-light mb-4">I'm <b class="fg-theme">{{profile.first_name}}</b> {{profile.last_name}}</h1>
+        <div class="badge">{{profile.year_of_study}} yr Student</div>
+
+      </div>
+    </div>
+
+    <div class="vg-page page-about" id="about">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-4 py-3">
+                <div class="img-place wow fadeInUp">
+                <img src={% static 'images/person.jpg' %} alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 offset-lg-1 wow fadeInRight">
+                <h1 class="fw-light">{{profile.first_name}} {{profile.last_name}}</h1>
+                <h5 > <strong>Course Taking : </strong> <span class="fg-theme mb-3 h5">{{profile.course}}</span></h5>
+                <p><strong>Bio</strong></p>
+                <p class="text-muted">{{profile.bio}}</p>
+                <ul class="theme-list">
+                <li><b>Friends:</b> {{profile.get_friends.count}}</li>
+                <li><b>Email</b> {{profile.email}}</li>
+                <li><b>Phone Number :</b> +254 712345678</li>
+                <li><b>Gender:</b> Male</li>
+                </ul>
+                
+            </div>
+        </div>
+
+    </div>
+  </div>
+
+</div>
+  
+{% endblock extracont %}
+    
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src={% static 'js/scripts.js' %}></script>
+{% endblock scripts %}
+    

@@ -1,0 +1,19 @@
+:root {
+    --pri-col: #e67e22;
+    --sec-col: #374386;
+    --text-col:#fff;
+  }
+  
+
+.nav{
+    background-color: var(--pri-col) !important;
+}
+
+.secbtn{
+    background-color: var(--sec-col) !important;
+    color:var(--text-col)!important;
+}
+
+.ui.menu{
+    margin: 0 !important; 
+}
