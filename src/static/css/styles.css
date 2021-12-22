@@ -17,3 +17,19 @@
 .ui.menu{
     margin: 0 !important; 
 }
+
+.ui.card{
+    width: 100% !important;
+}
+
+.display_cont{
+    display: contents;
+}
+
+.fg-theme{
+    color: #ef3724 !important;
+  }
+
+.comment_card{
+    width: 100% !important;
+}

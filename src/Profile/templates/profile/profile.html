@@ -11,6 +11,42 @@
 
 
 {% block extracont %}
+
+<!-- MODAL -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-md-5">
+          <img  width="100%" src="{{profile.avatar.url}}">
+        </div>
+        <div class="col-md-7">  
+          <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{form.as_p}}
+        </div>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <button type='submit' class="btn btn-outline-success">
+          Update 
+          <i class="checkmark icon"></i>
+        </button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="theme-red">
     <div class="vg-page page-home" id="home" style="background-image: url({% static 'images/bg_image_1.jpg' %})">
   
@@ -22,33 +58,75 @@
 
       </div>
     </div>
+    <div class="container mt-5 mb-5" >
+    <div class="ui segment ">
+      {% if confirm %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Your profile has been updated
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+          
+      {% endif %}
+      <h3 class="fg-theme">my profile: {{request.user}}</h3>
+      <hr>
+      <div class="ui grid">
+          <div class='row'>
+              <div class='six wide column imgdiv'>
+                  <img class="ui medium rounded image dp" src={{profile.avatar.url}}>
+                  <div class="row mt-5 updatebtndiv">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Update your profile</button>  
+                  </div>
+              </div>
+              <div class="ten wide column">
+                  <table class="ui table">
+                      <tbody>
+                          <tr>
+                              <td><strong class="fg-theme">username</strong></td>
+                              <td>{{profile.user}}</td>
+                          </tr>
+                          <tr>
+                              <td><strong class="fg-theme">first name</strong></td>
+                              <td>{{profile.first_name}}</td>
+                          </tr>
+                          <tr>
+                              <td><strong class="fg-theme">last name</strong></td>
+                              <td>{{profile.last_name}}</td>
+                          </tr>
+                          <tr>
+                              <td><strong class="fg-theme">bio</strong></td>
+                              <td>{{profile.bio}}</td>
+                          </tr>
+                          <tr>
+                              <td><strong class="fg-theme">number of friends</strong></td>
+                              <td>{{profile.get_friends_count}}</td>
+                          </tr>
+                          <tr>
+                            <td><strong class="fg-theme">Course</strong></td>
+                            <td>{{profile.course}}</td>
+                        </tr>
+                        <tr>
+                          <td><strong class="fg-theme">Level of Study</strong></td>
+                          <td>{{profile.study_level}}</td>
+                        </tr>
 
-    <div class="vg-page page-about" id="about">
-    <div class="container py-5">
-        <div class="row">
-            <div class="col-lg-4 py-3">
-                <div class="img-place wow fadeInUp">
-                <img src={% static 'images/person.jpg' %} alt="">
-                </div>
-            </div>
-            <div class="col-lg-6 offset-lg-1 wow fadeInRight">
-                <h1 class="fw-light">{{profile.first_name}} {{profile.last_name}}</h1>
-                <h5 > <strong>Course Taking : </strong> <span class="fg-theme mb-3 h5">{{profile.course}}</span></h5>
-                <p><strong>Bio</strong></p>
-                <p class="text-muted">{{profile.bio}}</p>
-                <ul class="theme-list">
-                <li><b>Friends:</b> {{profile.get_friends.count}}</li>
-                <li><b>Email</b> {{profile.email}}</li>
-                <li><b>Phone Number :</b> +254 712345678</li>
-                <li><b>Gender:</b> Male</li>
-                </ul>
-                
-            </div>
-        </div>
+                          <tr>
+                              <td><strong class="fg-theme">number of posts</strong></td>
+                              <td>{{profile.get_posts_count}}</td>
+                          </tr>
+                        <tr>
+                          <td><strong class="fg-theme">number of likes</strong></td>
+                          <td>{{profile.get_likes_recived_count}}</td>
+                      </tr>
 
-    </div>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
   </div>
-
+</div>
 </div>
   
 {% endblock extracont %}

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Posts',
     'Profile',
+    'django_summernote',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,8 @@ STATIC_ROOT= BASE_DIR/ 'static-cdn-local'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'static/media'
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SUMMERNOTE_THEME = 'bs4'
+# CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

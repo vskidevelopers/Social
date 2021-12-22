@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.query_utils import Q
 from django.template.defaultfilters import slugify
 from .utils import generate_uuid_code
 
@@ -25,6 +26,27 @@ class Frienship_status(models.TextChoices):
     FRIENDSHIP_ACCEPTED ="accepted"
 
 
+class ProfileManager(models.Manager):
+    def get_profiles_available_for_invite(self, sender):
+        profiles= Profiles.objects.all().exclude(user=sender)
+        profile=Profiles.objects.get(user=sender)
+        queryset= Friendship.objects.filter(Q(sender=profile)|Q(receiver=profile))
+    
+        accepted=set([])
+
+        for friendship in queryset:
+            if friendship.friendship_status =="accepted":
+                accepted.add(friendship.sender)
+                accepted.add(friendship.receiver)
+        
+        available=[profile for profile in profiles if profile not in accepted ]
+        return available
+
+
+    def get_profiles(self, user):
+        profiles= Profiles.objects.all().exclude(user=user)
+        return profiles
+
 class Profiles(models.Model):
     """Model definition for Profiles."""
 
@@ -43,6 +65,8 @@ class Profiles(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    # instaciate the profile manager
+    objects=ProfileManager()
     class Meta:
         """Meta definition for Profiles."""
 
@@ -75,6 +99,11 @@ class Profiles(models.Model):
         self.slug = slug
         super().save( *args, **kwargs)
 
+class FriendshipManager(models.Manager):
+    def friend_requests_recieved(self, receiver):
+        queryset=Friendship.objects.filter(receiver=receiver, friendship_status="send")
+        return queryset
+
 class Friendship(models.Model):
     """Model definition for Friendship."""
 
@@ -82,11 +111,12 @@ class Friendship(models.Model):
     sender = models.ForeignKey(Profiles, related_name="sender", on_delete=models.CASCADE)
     receiver = models.ForeignKey(Profiles, related_name="reciever", on_delete=models.CASCADE)
     friendship_status = models.CharField(max_length=50, choices=Frienship_status.choices)
+    objects = FriendshipManager()
     class Meta:
         """Meta definition for Friendship."""
         verbose_name = 'Friendship'
         verbose_name_plural = 'Friendships'
 
     def __str__(self):
-        return f"{self.sender}  &  {self.receiver} - {self.friendship_status}"
+        return f"{self.sender.user}  &  {self.receiver.user} - {self.friendship_status}"
 

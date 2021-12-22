@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/styles' %}">
+{% endblock head %}
+
+{% block extracont %}
+        {% if message in messages %}
+            {% if 'warning' in message.tag %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+        {% else %}
+        <div class="container">
+            <div class="jumbotron">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="delete" class="btn btn-danger btn-lg">
+                    <div class="description mt-3">
+                        <p> You sure you wanna delete this stuff? Just know, you can never gerrit back, Ever!</p>
+                    </div>
+                    </form>
+            </div>
+        </div>
+        {% endif %}
+{% endblock extracont %}

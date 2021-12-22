@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block head %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'css/styles' %}">
+{% endblock head %}
+  
+
+
+{% block extracont %}
+    <div class="container mt-4" >
+        <div class="row">
+            <div class="col-md-8">
+                {% for post in posts %}
+                <div class="ui card">
+                    <div class="content">
+                      <div class="right floated meta">
+                        <div class="ui grid">
+                          <div class="row">
+                              {% ifequal request.user post.author.user %}
+                                  <a href="{% url 'post:delete' post.pk %}"><div class="btn btn-outline-danger">Delete</div></a>
+                              {% endifequal %}
+                          </div>
+                      </div>
+                      </div>
+                      <img class="ui avatar image" src={{post.author.avatar.url}}> <span class="fg-theme" >{{post.author.user}}</span> ~14h
+                    </div>
+                    <div class="image">
+                      {% if post.image %}
+                          <img src="{{ post.image.url }}">
+                      {% endif %}
+                    </div>
+                    <div class="content">
+                      <span class="right floated">
+                        <form action="{% url 'post:like_view' %}" method='POST'>
+                          {% csrf_token %}
+                          <input type="hidden" name="post_id" value={{post.id}}>
+                          {% if profile not in post.liked.all %}
+                          <button type='submit' class="display_cont"><i class="heart outline like icon"></i></button>
+                          {% else %}
+                          <button type='submit' class="display_cont"><i class="heart like icon fg-theme"></i></button>
+                          {% endif %}
+                          {{post.get_likes_count}} likes
+                        </form>
+                        
+                      </span>
+                      <i class="comment icon"></i>
+                      {{post.get_comments_count}} 
+                      <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        comments
+                      </a>
+                      
+
+                      <div class="description mt-2">
+                        {{post.content}}
+                      </div>
+                    </div>
+                    
+                    <div class="extra content">
+                      <div class="collapse" id="collapseExample">
+                        {%  if post.comment_set.all %}
+                        <div class="ui cards">
+                            {% for comment in post.comment_set.all %}
+                                  <div class="card comment_card">
+                                    <div class="content">
+                                      <img class="right floated ui avatar image" src={{comment.user.avatar.url}}>
+                                      <div class="header fg-theme">
+                                        {{comment.user.user}}
+                                      </div>
+                                      <div class="description">
+                                        {{comment.body}}
+                                      </div>
+                                    </div>
+                                  </div>
+                            {% endfor %}
+                          </div>  
+                          {% endif %}
+                      </div>
+                      <div class="ui large transparent  input mt-3" >
+                        <form action="" method="POST">
+                          {% csrf_token %}
+                          <input type="hidden" name="post_id" value={{post.id}}>
+                          {{ comment_form}}
+                          <button type='submit' name="submit_comment_form" class=" btn btn-outline-success">comment</button>
+                        </form>
+                        
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+              {% if post_added %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Post Added
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endif %}
+              <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{post_form | crispy }}
+                <button type='submit' name="submit_post_form" class=" btn btn-outline-success">Share Post</button>
+            </form>
+            </div>
+        </div>
+    </div>
+{% endblock extracont %}
+    
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+{% endblock scripts %}
