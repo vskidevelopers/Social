@@ -33,3 +33,8 @@
 .comment_card{
     width: 100% !important;
 }
+
+.centerbtns{
+    display: flex !important;
+    justify-content: space-around !important;
+}

@@ -82,6 +82,27 @@ class Profiles(models.Model):
 
     def get_friends_count(self):
         return self.friends.all().count()
+    
+    def get_created_date(self):
+        return self.created.strftime('%d-%m-%Y')
+
+    def get_display_bio(self):
+        return str(self.bio[:20])
+    
+    def get_display_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
+    def get_display_friends(self):
+        friends = self.get_friends()
+        friends_count=friends.count() - 1
+        if friends_count == 0:
+            friends_to_show = friends[0]
+        elif friends_count>=2:
+                friends_to_show = str(friends[0])+' and',    str(friends_count)+ " others"
+        else:
+            friends_to_show = friends[0]
+        return friends_to_show
+    
 
         
     def save(self, *args, **kwargs):

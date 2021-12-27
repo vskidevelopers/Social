@@ -8,15 +8,54 @@
 
 
 {% block extracont %}
-    <div class="container">
-        <ul>
-            {% for invite in invites %}
-            <li>
-                {{invite}}
-            </li>
+    <div class="container mt-4">
+        
+        {% if is_empty %}
+        <div class="alert alert-secondary" role="alert">
+            You dont have any friend requests
+        </div>
+
+        {% endif %}
+        <div class="ui cards">
+            {% for sender in senders %}
+            <div class="card">
+              <div class="content">
+                <img class="right floated mini ui image" src={{sender.avatar.url}}>
+                <div class="header">
+                  {{sender.get_display_name}}
+                </div>
+                
+                {% if sender.friends  %}
+                <div class="meta">
+                    Friends of {{sender.get_display_friends}}
+                </div>
+                {% endif %}
+                    
+                <div class="description">
+                    {{sender.get_display_bio}}...
+                </div>
+                </div>
+                <div class="extra content">
+                    <div class="ui two buttons centerbtns">
+                        <form action="{% url 'profile:accept-invites' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="sender_pk" value={{sender.pk}}>
+                            <button type="submit" class="btn btn-outline-success">
+                                Approve
+                            </button>
+                        </form>
+                        <form action="{% url 'profile:reject-invites' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="sender_pk" value={{sender.pk}}>
+                            <button type="submit"  class="btn btn-outline-danger" >
+                                Decline
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                </div>
             {% endfor %}
-            
-        </ul>
+        </div>
     </div>
 {% endblock extracont %}
     
