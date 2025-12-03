@@ -25,7 +25,9 @@ SECRET_KEY = '$em)9g=$(v4^6)688%e!a1s**7pdl&^al!+dmz#2tu4@zwi4p*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'cuk-online.fly.dev'
+]
 
 
 # Application definition
